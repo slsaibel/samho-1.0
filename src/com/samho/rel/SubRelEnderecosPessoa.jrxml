@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.6.1  -->
+<!-- 2017-04-29T21:32:15 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubRelEnderecosPessoaFisica" pageWidth="530" pageHeight="842" columnWidth="530" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="3" uuid="acf7f84b-97c0-498b-9d13-f5fe794271f1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SAMHO"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<parameter name="COD_PESSOA" class="java.lang.Long">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT enderecos_pf_view.id_endereco,
+	enderecos_pf_view.cod_pessoa,
+	enderecos_pf_view.tipo_endereco,
+		enderecos_pf_view.descricao || ', ' ||
+		enderecos_pf_view.complemento || ' - ' ||
+		enderecos_pf_view.cep AS endereco_compl_cep,
+	enderecos_pf_view.bairro || ' - ' ||
+		enderecos_pf_view.cidade || ' - ' ||
+		enderecos_pf_view.estado || ' - ' ||
+		enderecos_pf_view.pais AS localizacao,
+	enderecos_pf_view.ativo
+FROM enderecos_pf_view
+WHERE enderecos_pf_view.cod_pessoa = $P{COD_PESSOA}]]>
+	</queryString>
+	<field name="id_endereco" class="java.lang.Long"/>
+	<field name="cod_pessoa" class="java.lang.Long"/>
+	<field name="tipo_endereco" class="java.lang.String"/>
+	<field name="endereco_compl_cep" class="java.lang.String"/>
+	<field name="localizacao" class="java.lang.String"/>
+	<field name="ativo" class="java.lang.Boolean"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="10" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="272" height="10" uuid="8a15c9f8-b72b-4c85-8509-fd01c80e9604">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Endereços da Pessoa]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="10" splitType="Stretch">
+			<staticText>
+				<reportElement x="128" y="0" width="20" height="10" uuid="c35eb30c-3c52-4522-ab9b-013fa79c33d9">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ativo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="44" height="10" uuid="a1fd191d-dc6e-4eae-b3b5-d3f0bc6d3f85">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="0" width="80" height="10" uuid="081962c9-bd8c-47c9-bae3-07c285cdc314">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Endereço]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="379" height="10" uuid="d3d7208d-8264-4298-a565-9ff4d50279f7">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="46" y="0" width="80" height="10" uuid="daff75f2-971b-4ecc-a9fa-ada91f188d7d">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_endereco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="0" width="20" height="10" uuid="b9fc8a67-74c7-4c00-b44a-a70558220017"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ativo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="379" height="10" uuid="78475b7d-5e76-4aa7-83c0-ad142f036d34">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{endereco_compl_cep}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="44" height="10" uuid="9330cb81-b0f1-4b9c-aa37-11b5c3b8c482">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_endereco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="10" width="379" height="10" uuid="621b613a-901f-489d-b1c0-3d6ae25bff74"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{localizacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="1">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="529" height="1" isRemoveLineWhenBlank="true" uuid="410f616f-655e-4e49-a37f-b1cba5adb5b3">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

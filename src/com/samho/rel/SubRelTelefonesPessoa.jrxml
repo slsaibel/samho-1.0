@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 5.6.2.final using JasperReports Library version 5.6.1  -->
+<!-- 2017-04-29T20:24:51 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SubRelTelefonesPessoa" pageWidth="530" pageHeight="842" columnWidth="530" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="3" uuid="4cbc84f5-3798-41b5-8a97-a9874f0e0024">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="SAMHO"/>
+	<parameter name="COD_PESSOA" class="java.lang.Long">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT telefones_pf_view.id_telefone,
+	telefones_pf_view.cod_pessoa,
+	telefones_pf_view.tipo_telefone,
+	telefones_pf_view.numero || ' - ' ||
+	telefones_pf_view.ramal|| ' - ' ||
+	telefones_pf_view.contato AS telefone_ramal_contato,
+	telefones_pf_view.ativo
+FROM telefones_pf_view
+WHERE telefones_pf_view.cod_pessoa = $P{COD_PESSOA}]]>
+	</queryString>
+	<field name="id_telefone" class="java.lang.Long"/>
+	<field name="cod_pessoa" class="java.lang.Long"/>
+	<field name="tipo_telefone" class="java.lang.String"/>
+	<field name="telefone_ramal_contato" class="java.lang.String"/>
+	<field name="ativo" class="java.lang.Boolean"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="10" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="272" height="10" uuid="26520add-18af-481c-94b2-9491d19505cf">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefones da Pessoa]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="10" splitType="Stretch">
+			<staticText>
+				<reportElement x="150" y="0" width="380" height="10" uuid="ff8568ee-db58-46b9-9075-9f8f9835fae8">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone - Ramal - Contato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="44" height="10" uuid="b6e0f9f6-afdc-48b8-ab7e-e520d3a07284">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="128" y="0" width="20" height="10" uuid="ffd6d10c-7a03-422e-8702-1df0c5aebd72">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ativo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="46" y="0" width="80" height="10" uuid="a81ad8c4-939c-41d9-ae00-160240712dd4">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Telefone]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="10" splitType="Stretch">
+			<textField>
+				<reportElement x="128" y="0" width="20" height="10" uuid="961b3270-e88b-451b-96d1-3e2e94b6e8c0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ativo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="46" y="0" width="80" height="10" uuid="7c3b1631-8f9a-42a1-8c51-6ae78f9d31a5"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_telefone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="44" height="10" uuid="77ef8d06-ffcb-4c59-ab3c-5ebc30b97223"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{id_telefone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="0" width="380" height="10" uuid="80bc563d-b46b-4105-9a99-b17e24d103de"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefone_ramal_contato}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="1" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="0" width="530" height="1" isRemoveLineWhenBlank="true" uuid="836de68f-ee5d-47d4-8534-446551440db5">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>
