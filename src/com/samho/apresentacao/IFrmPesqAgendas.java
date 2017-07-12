@@ -22,15 +22,15 @@ import javax.swing.JTextField;
  * Classe para visualização de objetos do tipo FrmPesquisa.
  *
  * @author Saibel, Sergio Luis
- * @since  date 08/04/2017
+ * @since date 08/04/2017
  *
- * @version  revision 001.20170408 date 08/04/2017 author Saibel, Sérgio Luis reason
- * Conseguir instanciar um objeto do tipo FrmPesquisa com os atributos e
- * métodos necessários. Esta classe tem como objetivo mostrar objetos obtidos 
- * do banco a fim de visualizar estas informações.
- * Esta extende um JInternalFrame ou seja necessita de um Frame como pai.
- * Permite: Pesquisar, Incluir, Alterar e Excluir um objeto.
- * 
+ * @version revision 001.20170408 date 08/04/2017 author Saibel, Sérgio Luis
+ * reason Conseguir instanciar um objeto do tipo FrmPesquisa com os atributos e
+ * métodos necessários. Esta classe tem como objetivo mostrar objetos obtidos do
+ * banco a fim de visualizar estas informações. Esta extende um JInternalFrame
+ * ou seja necessita de um Frame como pai. Permite: Pesquisar, Incluir, Alterar
+ * e Excluir um objeto.
+ *
  */
 public class IFrmPesqAgendas extends JInternalFrame {
 
@@ -57,6 +57,8 @@ public class IFrmPesqAgendas extends JInternalFrame {
 
     private void inicializar(IFrmManAgenda iFrmManAgenda) {
         initComponents();
+        
+        Formatacao.reformatarData(txtDataDeAgendamento);
 
         tbResultado.getTableHeader().setReorderingAllowed(false);
         this.iFrmManAgenda = iFrmManAgenda;
@@ -65,22 +67,22 @@ public class IFrmPesqAgendas extends JInternalFrame {
         dadosWhere.addAll(agenda.getObjetoDAO().getCondicaoWhere());
 
         Util.atualizar(agenda, tbResultado);
-    
+
         verificarPermissoes();
     }
-    
+
     /**
-     * Verifica as permissões do  usuário logado
+     * Verifica as permissões do usuário logado
      */
-      public void verificarPermissoes (){
+    public void verificarPermissoes() {
         boolean[] acoes = Util.getAcoesUsuario(Principal.AGENDAS);
 
         btnIncluir.setEnabled(acoes[Util.INCLUIR]);
         btnAlterar.setEnabled(acoes[Util.ALTERAR]);
         btnExcluir.setEnabled(acoes[Util.EXCLUIR]);
         btnAtualizar.setEnabled(acoes[Util.CONSULTAR]);
-        btnAplicar.setEnabled(acoes[Util.INCLUIR] || acoes[Util.ALTERAR] || 
-                acoes[Util.EXCLUIR]);
+        btnAplicar.setEnabled(acoes[Util.INCLUIR] || acoes[Util.ALTERAR]
+                || acoes[Util.EXCLUIR]);
     }
 
     private void reescreverObjeto() {
@@ -105,7 +107,7 @@ public class IFrmPesqAgendas extends JInternalFrame {
                     tbResultado.getSelectedRow(), 10).toString()));
             agenda.setObservacoes(tbResultado.getValueAt(
                     tbResultado.getSelectedRow(), 11).toString());
-            
+
             agenda.adicionarCampos();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this.getParent(),
@@ -121,37 +123,45 @@ public class IFrmPesqAgendas extends JInternalFrame {
         }
 
         if (!txtCodCliente.getText().equals("")) {
-            Util.verificarPesquisarCampoDescricao(agenda, txtCodCliente);
+            agenda.getObjetoDAO().addWhere(new DadosDAO("cod_cliente", "",
+                    txtCodCliente.getText(), DadosDAO.TIPO_LONG, DadosDAO.IS_IGUAL,
+                    DadosDAO.NAO_CHAVE));
         }
-        
+
         if (!txtCodFuncionario.getText().equals("")) {
-            Util.verificarPesquisarCampoDescricao(agenda, txtCodFuncionario);
+            agenda.getObjetoDAO().addWhere(new DadosDAO("cod_funcionario", "",
+                    txtCodFuncionario.getText(), DadosDAO.TIPO_LONG, DadosDAO.IS_IGUAL,
+                    DadosDAO.NAO_CHAVE));
         }
-        
+
         if (!txtCodProfissional.getText().equals("")) {
-            Util.verificarPesquisarCampoDescricao(agenda, txtCodProfissional);
+            agenda.getObjetoDAO().addWhere(new DadosDAO("cod_profissional", "",
+                    txtCodProfissional.getText(), DadosDAO.TIPO_LONG, DadosDAO.IS_IGUAL,
+                    DadosDAO.NAO_CHAVE));
         }
-        
+
         if (!txtDataDeAgendamento.getText().equals("")) {
-            Util.verificarPesquisarCampoDescricao(agenda, txtDataDeAgendamento);
+            agenda.getObjetoDAO().addWhere(new DadosDAO("data_agendamento", "",
+                    txtDataDeAgendamento.getText(), DadosDAO.TIPO_DATE, DadosDAO.IS_IGUAL,
+                    DadosDAO.NAO_CHAVE));
         }
 
         agenda.adicionarWhere(dadosWhere);
 
         Util.atualizar(agenda, tbResultado);
     }
-    
+
     public void pesquisarCodigoDescicaoCliente(Clientes cliente) {
         Util.pesquisarCodigoDescicao(cliente, txtCodCliente, txtNomeCliente);
     }
 
     public void pesquisarCodigoDescicaoFuncionario(Funcionarios funcionario) {
-        Util.pesquisarCodigoDescicao(funcionario, txtCodFuncionario, 
+        Util.pesquisarCodigoDescicao(funcionario, txtCodFuncionario,
                 txtNomeFuncionario);
     }
 
     public void pesquisarCodigoDescicaoProfissional(Profissionais profissional) {
-        Util.pesquisarCodigoDescicao(profissional, txtCodProfissional, 
+        Util.pesquisarCodigoDescicao(profissional, txtCodProfissional,
                 txtNomeProfissional);
     }
 
@@ -384,36 +394,41 @@ public class IFrmPesqAgendas extends JInternalFrame {
         pnlPesquisarCamposLayout.setHorizontalGroup(
             pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
-                        .addComponent(txtCodFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtCodFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtCodProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4)
-                        .addComponent(lblLocalizarFuncionario)
+                        .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblLocalizarFuncionario)
+                            .addComponent(lblLocalizarProfissional))
                         .addGap(4, 4, 4)
-                        .addComponent(txtNomeFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNomeFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNomeProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
-                        .addComponent(txtCodProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(7, 7, 7)
-                        .addComponent(lblLocalizarProfissional)
-                        .addGap(4, 4, 4)
-                        .addComponent(txtNomeProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtDataDeAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
+                        .addGap(160, 160, 160)
                         .addComponent(txtCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblLocalizarCliente)
                         .addGap(4, 4, 4)
-                        .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(118, 118, 118))
+                        .addComponent(txtNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 402, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addComponent(txtDataDeAgendamento, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlPesquisarCamposLayout.setVerticalGroup(
             pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,17 +452,13 @@ public class IFrmPesqAgendas extends JInternalFrame {
                     .addComponent(txtCodFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblLocalizarFuncionario)
                     .addComponent(txtNomeFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
                 .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblLocalizarProfissional)
-                            .addComponent(txtNomeProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(txtCodProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(lblLocalizarProfissional)
+                    .addComponent(txtNomeProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5)
+                        .addComponent(txtCodProfissional, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(6, 6, 6)
                 .addGroup(pnlPesquisarCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPesquisarCamposLayout.createSequentialGroup()
@@ -679,12 +690,12 @@ public class IFrmPesqAgendas extends JInternalFrame {
 
         if (!acoes[Util.CONSULTAR]) {
             JOptionPane.showMessageDialog(this.getParent(),
-                "Você não pode efetuar esta consultadas.\n\nMotivo: "
-                + "Usuário sem permissão.");
+                    "Você não pode efetuar esta consultadas.\n\nMotivo: "
+                    + "Usuário sem permissão.");
         } else {
             try {
                 IFrmPesqClientes iFrmPesqClientes = new IFrmPesqClientes(
-                    new IFrmManCliente(new Clientes()), txtCodCliente, txtNomeCliente);
+                        new IFrmManCliente(new Clientes()), txtCodCliente, txtNomeCliente);
 
                 this.getParent().remove(iFrmPesqClientes);
                 this.getParent().add(iFrmPesqClientes);
@@ -694,7 +705,7 @@ public class IFrmPesqAgendas extends JInternalFrame {
                 iFrmPesqClientes.setVisible(true);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this.getParent(),
-                    "Cliente não pode ser consultado.\n\nMotivo: " + e);
+                        "Cliente não pode ser consultado.\n\nMotivo: " + e);
             }
         }
     }//GEN-LAST:event_lblLocalizarClienteMouseReleased
@@ -704,25 +715,25 @@ public class IFrmPesqAgendas extends JInternalFrame {
 
         if (!acoes[Util.CONSULTAR]) {
             JOptionPane.showMessageDialog(this.getParent(),
-                "Você não pode efetuar esta consultadas.\n\nMotivo: "
-                + "Usuário sem permissão.");
+                    "Você não pode efetuar esta consultadas.\n\nMotivo: "
+                    + "Usuário sem permissão.");
         } else {
             try {
                 IFrmPesqFuncionarios iFrmPesqFuncionarios
-                = new IFrmPesqFuncionarios(new IFrmManFuncionario(
-                    new Funcionarios()),
-                txtCodFuncionario, txtNomeFuncionario);
+                        = new IFrmPesqFuncionarios(new IFrmManFuncionario(
+                                new Funcionarios()),
+                                txtCodFuncionario, txtNomeFuncionario);
 
-            this.getParent().remove(iFrmPesqFuncionarios);
-            this.getParent().add(iFrmPesqFuncionarios);
+                this.getParent().remove(iFrmPesqFuncionarios);
+                this.getParent().add(iFrmPesqFuncionarios);
 
-            Util.centralizar(this.getParent(), iFrmPesqFuncionarios);
+                Util.centralizar(this.getParent(), iFrmPesqFuncionarios);
 
-            iFrmPesqFuncionarios.setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this.getParent(),
-                "Funcionário não pode ser consultado.\n\nMotivo: " + e);
-        }
+                iFrmPesqFuncionarios.setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this.getParent(),
+                        "Funcionário não pode ser consultado.\n\nMotivo: " + e);
+            }
         }
     }//GEN-LAST:event_lblLocalizarFuncionarioMouseReleased
 
@@ -739,25 +750,25 @@ public class IFrmPesqAgendas extends JInternalFrame {
 
         if (!acoes[Util.CONSULTAR]) {
             JOptionPane.showMessageDialog(this.getParent(),
-                "Você não pode efetuar esta consultadas.\n\nMotivo: "
-                + "Usuário sem permissão.");
+                    "Você não pode efetuar esta consultadas.\n\nMotivo: "
+                    + "Usuário sem permissão.");
         } else {
             try {
                 IFrmPesqProfissionais iFrmPesqProfissionais
-                = new IFrmPesqProfissionais(new IFrmManProfissional(
-                    new Profissionais()),
-                txtCodProfissional, txtNomeProfissional);
+                        = new IFrmPesqProfissionais(new IFrmManProfissional(
+                                new Profissionais()),
+                                txtCodProfissional, txtNomeProfissional);
 
-            this.getParent().remove(iFrmPesqProfissionais);
-            this.getParent().add(iFrmPesqProfissionais);
+                this.getParent().remove(iFrmPesqProfissionais);
+                this.getParent().add(iFrmPesqProfissionais);
 
-            Util.centralizar(this.getParent(), iFrmPesqProfissionais);
+                Util.centralizar(this.getParent(), iFrmPesqProfissionais);
 
-            iFrmPesqProfissionais.setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this.getParent(),
-                "Funcionário não pode ser consultado.\n\nMotivo: " + e);
-        }
+                iFrmPesqProfissionais.setVisible(true);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this.getParent(),
+                        "Funcionário não pode ser consultado.\n\nMotivo: " + e);
+            }
         }
     }//GEN-LAST:event_lblLocalizarProfissionalMouseReleased
 
